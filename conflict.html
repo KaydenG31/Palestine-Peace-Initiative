@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Palestine Peace Initiative</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .announcement-banner {
+    background-color: #d32f2f; /* Palestine-themed red background */
+    color: #fff; /* White text */
+    text-align: center;
+    padding: 15px;
+    font-size: 1.5em;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 3s ease-in-out infinite alternate;
+}
+
+.announcement-banner p {
+    margin: 0;
+}
+
+.announcement-banner span {
+    color: #4CAF50; /* Palestine-themed green color for emphasis */
+    animation: pulse 1s infinite;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Pulse animation for the emphasized text */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+        header {
+            background-color: #333;
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .logo {
+            margin-bottom: 10px;
+        }
+
+        .logo img {
+            max-height: 80px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 16px 20px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #111;
+        }
+
+        nav ul li.dropdown {
+            position: relative;
+        }
+
+        nav ul li.dropdown > a::after {
+            content: " ▼";
+            font-size: 0.8em;
+        }
+
+        nav ul li .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        nav ul li .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        nav ul li .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        nav ul li.dropdown:hover .dropdown-content {
+            display: block;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .hero-image {
+            background-image: url('assets/hero-image.jpg'); /* Replace with your hero image */
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            text-align: center;
+        }
+
+        .hero-image h1 {
+            font-size: 3em;
+            margin: 0;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .content h2 {
+            font-size: 2.5em;
+            color: #d32f2f;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .impact-section {
+            background-color: #f4f4f4;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .impact-section h2 {
+            font-size: 2em;
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+
+        .impact-section p {
+            font-size: 1.2em;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+
+        footer nav {
+            margin-top: 10px;
+        }
+
+        footer nav ul {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        footer nav ul li {
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+
+        footer nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        footer nav ul li a:hover {
+            background-color: #111;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="announcement-banner">
+            <p>JOIN US IN <span>SAVING PALESTINE</span></p>
+        </div>
+
+        <div class="logo">
+            <a href="home.html"><img src="assets/PALESTINE PEACE INITIATIVE LOGO.png" alt="Palestine Peace Initiative Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)">Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="conflict.html">Conflict Page</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="contactus.html">Contact Us</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero-image">
+        <h1>The Conflict in Palestine</h1>
+    </div>
+
+    <main class="content">
+        <h2>History of the Conflict</h2>
+        <p>
+            The conflict in Palestine has its roots in the early 20th century, with the rise of nationalist movements among both the Jewish and Arab populations in the region. The Balfour Declaration of 1917, in which the British government expressed support for a "national home for the Jewish people" in Palestine, set the stage for escalating tensions. After World War II, the United Nations proposed a partition plan to create separate Jewish and Arab states, which was accepted by Jewish leaders but rejected by Arab leaders.
+        </p>
+        <p>
+            In 1948, the State of Israel was established, leading to the first Arab-Israeli war. Hundreds of thousands of Palestinians were displaced, an event known as the Nakba ("Catastrophe"), and this mass displacement continues to impact Palestinian society today. Subsequent wars, uprisings, and peace attempts have failed to resolve the conflict, leading to further violence and instability in the region.
+        </p>
+
+        <h2>Impact on Civilian Life</h2>
+        <p>
+            The ongoing conflict has had devastating effects on Palestinian civilians. Frequent military operations, airstrikes, and ground invasions have resulted in high casualties and extensive destruction of infrastructure. Many families live in constant fear of violence, with children bearing the psychological scars of war.
+        </p>
+        <p>
+            Access to basic necessities such as food, clean water, and healthcare is severely restricted due to blockades and ongoing violence. The economy is crippled, with high unemployment rates and limited opportunities for growth. Additionally, the education system suffers, as schools are often targeted or destroyed, depriving children of their right to learn and grow.
+        </p>
+        
+        <h2>How You Can Help</h2>
+        <p>
+            Supporting organizations that provide humanitarian aid, education, and healthcare can make a significant difference in the lives of those affected by the conflict. Every contribution helps build a brighter future for Palestinian children and families. Together, we can work towards a peaceful resolution and a better tomorrow.
+        </p>
+
+        <div class="impact-section">
+            <h2>Join Us in Making a Difference</h2>
+            <p>
+                Your involvement can help improve the living conditions and futures of countless Palestinians affected by this enduring conflict. Let’s stand in solidarity and support those in need.
+            </p>
+        </div>
+    </main>
+
+    
+    <footer>
+        <div style="display: flex; justify-content: space-around; align-items: flex-start; padding: 20px; background-color: #333; color: white;">
+            <!-- Logo Section -->
+            <div class="footer-logo" style="flex-basis: 30%;">
+                <a href="home.html">
+                    <img src="assets/PALESTINE PEACE INITIATIVE LOGO.png" alt="Palestine Peace Initiative Logo" style="max-height: 100px;">
+                </a>
+                <p>&copy; 2024 Palestine Peace Initiative. All Rights Reserved.</p>
+            </div>
+    
+            <!-- Quick Links Section -->
+            <div class="footer-links" style="flex-basis: 30%;">
+                <h4>Quick Links</h4>
+                <nav>
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li><a href="home.html" style="color: white; text-decoration: none;">Home</a></li>
+                        <li><a href="aboutus.html" style="color: white; text-decoration: none;">About Us</a></li>
+                      
+                        <li><a href="contactus.html" style="color: white; text-decoration: none;">Contact Us</a></li>
+                        <li><a href="donate.html" style="color: white; text-decoration: none;">Donate</a></li>
+                       
+                    </ul>
+                </nav>
+            </div>
+    
+            <!-- Map Section -->
+            <div class="footer-map" style="flex-basis: 30%;">
+                <h4>Our Location</h4>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.271271821685!2d-122.08575048469088!3d37.42206597982588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb5e2b2497a91%3A0x2d93e831fbfa9fbb!2sGoogleplex!5e0!3m2!1sen!2sus!4v1633311742969!5m2!1sen!2sus"
+                    width="100%" height="150" style="border: 0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    
+        <div style="text-align: center; background-color: #222; padding: 10px; color: white;">
+            <p>Follow us on social media:</p>
+            <a href="https://facebook.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Facebook</a> |
+            <a href="https://twitter.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Twitter</a> |
+            <a href="https://instagram.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Instagram</a>
+        </div>
+    </footer>

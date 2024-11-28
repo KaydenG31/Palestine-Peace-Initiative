@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Palestine Peace Initiative</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .announcement-banner {
+    background-color: #d32f2f; /* Palestine-themed red background */
+    color: #fff; /* White text */
+    text-align: center;
+    padding: 15px;
+    font-size: 1.5em;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden; 
+    animation: slideIn 3s ease-in-out infinite alternate;
+}
+
+.announcement-banner p {
+    margin: 0;
+}
+
+.announcement-banner span {
+    color: #4CAF50; /* Palestine-themed green color for emphasis */
+    animation: pulse 1s infinite;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Pulse animation for the emphasized text */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+        header {
+            background-color: #333;
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .logo {
+            margin-bottom: 10px;
+        }
+
+        .logo img {
+            max-height: 80px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 16px 20px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #111;
+        }
+
+        nav ul li.dropdown {
+            position: relative;
+        }
+
+        nav ul li.dropdown > a::after {
+            content: " ▼";
+            font-size: 0.8em;
+        }
+
+        nav ul li .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        nav ul li .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        nav ul li .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        nav ul li.dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .hero {
+            background-image: url(images/tristan-sosteric-oqDY6cJeB70-unsplash.jpg);
+            height: 400px;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+         .image-section {
+    text-align: center; /* Center the image */
+    margin: 20px 0; /* Add space above and below the image */
+        }
+
+         .image-section img {
+    max-width: 100%; /* Make sure the image is responsive */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Optional: Add rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow */
+        }
+
+
+        .motto {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5em;
+        }
+
+        .join-us {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .cta-buttons {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons a {
+            margin: 0 10px;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .cta-buttons a.green {
+            background-color: #00A651; /* Green */
+        }
+
+        .cta-buttons a.black {
+            background-color: #000000; /* Black */
+        }
+
+        .cta-buttons a.red {
+            background-color: #E03A3E; /* Red */
+        }
+
+        .cta-buttons a.green:hover {
+            background-color: #008744; /* Darker Green */
+        }
+
+        .cta-buttons a.black:hover {
+            background-color: #333333; /* Darker Black */
+        }
+
+        .cta-buttons a.red:hover {
+            background-color: #B22222; /* Darker Red */
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .news-item {
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .news-item h3 {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+        color: #045d0d;
+    }
+
+    .news-item p {
+        font-size: 1em;
+        color: #555;
+    }
+
+    .news-item a {
+        text-decoration: none;
+        color: #045d0d;
+    }
+
+    .news-item a:hover {
+        text-decoration: underline;
+    }
+
+        /* New map section */
+        .map-section {
+            margin: 40px 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /* Side Menu Styling */
+        .map-menu {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            margin-right: 20px;
+        }
+
+        .map-menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .map-menu ul li {
+            margin-bottom: 10px;
+        }
+
+        .map-menu ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px;
+            display: block;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .map-menu ul li a:hover {
+            background-color: #045d0d;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .testimonials-section {
+            padding: 50px;
+            background-color: #f9f9f9;
+        }
+
+        .testimonials-section h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .testimonial {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial h3 {
+            margin-top: 0;
+            font-size: 1.4em;
+            color: #d32f2f; /* Palestine-themed red */
+        }
+
+        .testimonial p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .testimonial-footer {
+            text-align: right;
+            font-style: italic;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Map Container Styling */
+        #map {
+            flex: 3;
+            min-width: 300px;
+            height: 500px;
+            border: 2px solid #940707;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+
+        footer nav {
+            margin-top: 10px;
+        }
+
+        footer nav ul {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        footer nav ul li {
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+
+        footer nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        footer nav ul li a:hover {
+            background-color: #111;
+        }
+
+        /* Popup Style */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+
+        .popup-content h2 {
+            color: black;
+            margin-top: 0;
+        }
+
+        .popup-content p {
+            color: #333;
+        }
+
+        .popup-content img {
+            max-height: 50px;
+            margin-bottom: 20px;
+        }
+
+        .popup-content form input[type="email"] {
+            padding: 10px;
+            width: calc(100% - 22px);
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .popup-content form input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #E03A3E; /* Red */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .popup-content form input[type="submit"]:hover {
+            background-color: #B22222; /* Darker red */
+        }
+
+        .popup-content .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #333;
+            font-size: 1.2em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .map-section {
+                flex-direction: column;
+            }
+
+            .map-menu {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            #map {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="announcement-banner">
+            <p>JOIN US IN <span>SAVING PALESTINE</span></p>
+        </div>
+
+        <div class="logo">
+            <a href="home.html"><img src="assets/PALESTINE PEACE INITIATIVE LOGO.png" alt="Palestine Peace Initiative Logo"></a>
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)">Menu</a>
+                    <ul class="dropdown-content">
+                        
+                        <li><a href="conflict.html">Conflict Page</a></li>
+                    
+                        
+                        <li><a href="donation.html">Donate</a></li>
+                        <li><a href="contactus.html">Contact Us</a></li>
+                        
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Welcome to the Palestine Peace Initiative</h1>
+    </div>
+
+    <!-- New image section below the hero -->
+    <div class="image-section">
+        <img src="assets/Website Assets (1).png" alt="Motto Image">
+     </div>
+
+   
+
+    <div class="join-us">
+        <h2>PALESTINE PEACE INITIATIVE MISSION</h2>
+    </div>
+
+    <div class="cta-buttons">
+        <a href="conflict.html" class="green">Learn More</a>
+        <a href="contactus.html" class="red">Contact Us</a>
+    
+        <a href="donation.html" class="black">Donate Now</a>
+    </div>
+    
+    <main>
+        <div class="news-section">
+            <h2>Latest News</h2>
+            <p>Stay updated with our latest initiatives and updates from the ground.</p>
+            <div class="news-grid">
+                <div class="news-item">
+                    <h3><a href="https://www.aljazeera.com/news/2024/8/18/family-including-six-children-among-23-killed-in-israeli-attacks-on-gaza" target="_blank">Family, including six children, among 23 killed in Israeli attacks on Gaza</a></h3>
+                    <p>A tragic incident where a family, including six children, lost their lives during an Israeli airstrike.</p>
+                </div>
+                <div class="news-item">
+                    <h3><a href="https://www.unrwa.org/newsroom/official-statements/unrwa-strongly-condemns-airstrike-killed-two-palestinian" target="_blank">UNRWA Condemns Airstrike Killing Palestinian Workers</a></h3>
+                    <p>UNRWA issues a statement condemning the airstrike that claimed the lives of two Palestinian workers in Gaza.</p>
+                </div>
+                <div class="news-item">
+                    <h3><a href="https://www.hrw.org/news/2024/07/25/palestinians-suffer-amid-new-wave-violence-west-bank" target="_blank">New Wave of Violence Hits West Bank, Palestinians Suffer</a></h3>
+                    <p>The Human Rights Watch reports an escalation in violence affecting Palestinian civilians in the West Bank.</p>
+                </div>
+                <div class="news-item">
+                    <h3><a href="https://www.bbc.com/news/world-middle-east-58007483" target="_blank">Ceasefire Agreement Reached Amid Ongoing Tensions in Gaza</a></h3>
+                    <p>A fragile ceasefire has been reached between Israeli and Palestinian forces after days of intense conflict.</p>
+                </div>
+                <div class="news-item">
+                    <h3><a href="https://www.middleeasteye.net/news/palestine-covid19-vaccine-scarcity-crisis" target="_blank">Palestine Faces COVID-19 Vaccine Scarcity Amid Crisis</a></h3>
+                    <p>Palestinians struggle to receive adequate medical supplies, including vaccines, amid the ongoing blockade.</p>
+                </div>
+                <div class="news-item">
+                    <h3><a href="https://www.theguardian.com/world/2024/aug/03/palestinian-schools-closed-under-siege" target="_blank">Palestinian Schools Forced to Close Due to Conflict</a></h3>
+                    <p>Schools in Gaza are shutting down as conflict escalates, leaving children without access to education.</p>
+                </div>
+            </div>
+        </div>
+        
+
+        <section class="testimonials-section">
+            <h2>Testimonies & Stories</h2>
+    
+            <div class="testimonials-grid">
+                <!-- Testimonial 1 -->
+                <div class="testimonial">
+                    <h3>“Hope is Alive in Gaza”</h3>
+                    <p>After witnessing firsthand the struggles faced by the people of Gaza, I decided to join the Palestine
+                        Peace Initiative. The resilience and hope of these people inspire me every day to fight for a better
+                        future. Together, we are making a difference.</p>
+                    <div class="testimonial-footer">- Sarah A., Activist</div>
+                </div>
+    
+                <!-- Testimonial 2 -->
+                <div class="testimonial">
+                    <h3>“Every Voice Matters”</h3>
+                    <p>Coming from a small village in the West Bank, I felt that my voice didn’t matter. But through the
+                        Initiative, I found a platform where I can share my story and raise awareness about the daily
+                        hardships we face. Our collective efforts give us strength.</p>
+                    <div class="testimonial-footer">- Ahmed K., Local Farmer</div>
+                </div>
+    
+                <!-- Testimonial 3 -->
+                <div class="testimonial">
+                    <h3>“From Refugee to Advocate”</h3>
+                    <p>As a Palestinian refugee, I’ve seen the worst of the conflict. However, joining the Palestine Peace
+                        Initiative allowed me to transform my pain into action. Today, I work alongside incredible
+                        individuals who are dedicated to creating lasting change.</p>
+                    <div class="testimonial-footer">- Leila M., Refugee Advocate</div>
+                </div>
+    
+                <!-- Testimonial 4 -->
+                <div class="testimonial">
+                    <h3>“Education is Our Weapon”</h3>
+                    <p>Our work is not just about immediate relief but also empowering the next generation with the
+                        knowledge to stand up for their rights. I am proud to be part of an organization that values
+                        education as a key to our freedom.</p>
+                    <div class="testimonial-footer">- Omar S., Teacher</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="map-section">
+            <div class="map-menu">
+                <h2>Affected Areas in Palestine - Click On A City Below</h2>
+                <ul>
+                    <li><a href="#" data-lat="31.5000" data-lng="34.4667" data-info="Gaza City: Major airstrikes and ground operations have heavily impacted the area.">Gaza City</a></li>
+                    <li><a href="#" data-lat="31.2653" data-lng="34.3043" data-info="Khan Yunis: Infrastructure destroyed and significant civilian casualties reported.">Khan Yunis</a></li>
+                    <li><a href="#" data-lat="31.3535" data-lng="34.3088" data-info="Beit Lahiya: Residential areas severely damaged with high displacement of residents.">Beit Lahiya</a></li>
+                    <li><a href="#" data-lat="31.4850" data-lng="34.4500" data-info="Jabalia: Humanitarian crisis due to blockades and continuous attacks.">Jabalia</a></li>
+                    <li><a href="#" data-lat="31.5190" data-lng="34.4501" data-info="Al-Shati: Essential services disrupted, leading to shortages of medical supplies.">Al-Shati</a></li>
+                    <!-- Add more areas as needed -->
+                </ul>
+            </div>
+            <div id="map"></div>
+        </div>
+    </main>
+
+     <!-- Newsletter Section -->
+<div class="newsletter-container" style="text-align: center; padding: 40px; background-color: #045d0d; color: white; border-radius: 8px; margin: 20px 0;">
+    <!-- Why Sign Up Section -->
+    <h2 style="font-size: 2em; font-weight: bold;">
+        <span style="font-size: 1.2em; color: #B22222;"></span> Stay Informed with Our Newsletter
+    </h2>
+    <p style="font-size: 1.2em; max-width: 600px; margin: 0 auto;">
+        Subscribe to our newsletter to get the latest updates on our initiatives, news, and impactful stories from the Palestine Peace Initiative. <br> 
+        <strong>Join our community in the journey towards peace and change.</strong>
+    </p>
+
+    <!-- Newsletter Features -->
+    <div style="display: flex; justify-content: center; gap: 40px; margin-top: 20px; font-size: 1em;">
+        <div>
+            <span style="font-size: 1.5em;">📰</span>
+            <p style="margin: 0;">Exclusive News</p>
+        </div>
+        <div>
+            <span style="font-size: 1.5em;">🌍</span>
+            <p style="margin: 0;">Global Updates</p>
+        </div>
+        <div>
+            <span style="font-size: 1.5em;">🤝</span>
+            <p style="margin: 0;">Get Involved</p>
+        </div>
+    </div>
+
+    <!-- Newsletter Button -->
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScKqWktvX1BXlfdbHqMCPkookZOhFgb0TI5Aj8DmWr4KY42SA/viewform" target="_blank" style="text-decoration: none;">
+        <button style="margin-top: 30px; font-size: 1.5em; padding: 15px 30px; color: white; background-color: #B22222; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s;">
+            Receive Newsletter
+        </button>
+    </a>
+</div>
+
+    <footer>
+        <div style="display: flex; justify-content: space-around; align-items: flex-start; padding: 20px; background-color: #333; color: white;">
+            <!-- Logo Section -->
+            <div class="footer-logo" style="flex-basis: 30%;">
+                <a href="home.html">
+                    <img src="assets/PALESTINE PEACE INITIATIVE LOGO.png" alt="Palestine Peace Initiative Logo" style="max-height: 100px;">
+                </a>
+                <p>&copy; 2024 Palestine Peace Initiative. All Rights Reserved.</p>
+            </div>
+    
+            <!-- Quick Links Section -->
+            <div class="footer-links" style="flex-basis: 30%;">
+                <h4>Quick Links</h4>
+                <nav>
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li><a href="home.html" style="color: white; text-decoration: none;">Home</a></li>
+                        <li><a href="aboutus.html" style="color: white; text-decoration: none;">About Us</a></li>
+                      
+                        <li><a href="contactus.html" style="color: white; text-decoration: none;">Contact Us</a></li>
+                        <li><a href="donate.html" style="color: white; text-decoration: none;">Donate</a></li>
+                       
+                    </ul>
+                </nav>
+            </div>
+    
+            <!-- Map Section -->
+            <div class="footer-map" style="flex-basis: 30%;">
+                <h4>Our Location</h4>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.271271821685!2d-122.08575048469088!3d37.42206597982588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb5e2b2497a91%3A0x2d93e831fbfa9fbb!2sGoogleplex!5e0!3m2!1sen!2sus!4v1633311742969!5m2!1sen!2sus"
+                    width="100%" height="150" style="border: 0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    
+        <div style="text-align: center; background-color: #222; padding: 10px; color: white;">
+            <p>Follow us on social media:</p>
+            <a href="https://facebook.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Facebook</a> |
+            <a href="https://twitter.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Twitter</a> |
+            <a href="https://instagram.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Instagram</a>
+        </div>
+    </footer>
+    
+
+    <div class="popup" id="joinPopup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h2>Join Our Cause</h2>
+            <img src="assets/PALESTINE PEACE INITIATIVE LOGO.png" alt="Palestine Peace Initiative Logo">
+            <p>Stay informed about our efforts and how you can help by joining our mailing list.</p>
+            <form>
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <input type="submit" value="Join">
+            </form>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        function openPopup() {
+            document.getElementById("joinPopup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("joinPopup").style.display = "none";
+        }
+
+        // Open the popup after a delay (optional)
+        setTimeout(openPopup, 2000); // Opens after 2 seconds
+
+        // Initialize Leaflet Map
+        var map = L.map('map').setView([31.5, 34.4667], 10); // Centered on Gaza
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Define affected areas with their coordinates and info
+        var areas = [
+            {
+                name: "Gaza City",
+                lat: 31.5000,
+                lng: 34.4667,
+                info: "Gaza City: Major airstrikes and ground operations have heavily impacted the area."
+            },
+            {
+                name: "Khan Yunis",
+                lat: 31.2653,
+                lng: 34.3043,
+                info: "Khan Yunis: Infrastructure destroyed and significant civilian casualties reported."
+            },
+            {
+                name: "Beit Lahiya",
+                lat: 31.3535,
+                lng: 34.3088,
+                info: "Beit Lahiya: Residential areas severely damaged with high displacement of residents."
+            },
+            {
+                name: "Jabalia",
+                lat: 31.4850,
+                lng: 34.4500,
+                info: "Jabalia: Humanitarian crisis due to blockades and continuous attacks."
+            },
+            {
+                name: "Al-Shati",
+                lat: 31.5190,
+                lng: 34.4501,
+                info: "Al-Shati: Essential services disrupted, leading to shortages of medical supplies."
+            }
+            // Add more areas as needed
+        ];
+
+        // Add markers to the map
+        areas.forEach(function(area) {
+            var marker = L.marker([area.lat, area.lng]).addTo(map);
+            marker.bindPopup("<strong>" + area.name + "</strong><br>" + area.info);
+        });
+
+        // Handle side menu clicks
+        var menuLinks = document.querySelectorAll('.map-menu ul li a');
+        menuLinks.forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var lat = this.getAttribute('data-lat');
+                var lng = this.getAttribute('data-lng');
+                var info = this.getAttribute('data-info');
+
+                // Fly to the selected location
+                map.flyTo([lat, lng], 13);
+
+                // Open popup for the marker
+                areas.forEach(function(area) {
+                    if(area.lat == lat && area.lng == lng) {
+                        // Find the corresponding marker and open its popup
+                        map.eachLayer(function(layer) {
+                            if(layer.getLatLng && layer.getLatLng().lat == area.lat && layer.getLatLng().lng == area.lng) {
+                                layer.openPopup();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+   
+
+</body>
+</html>

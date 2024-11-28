@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Palestine Peace Initiative</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .announcement-banner {
+    background-color: #d32f2f; /* Palestine-themed red background */
+    color: #fff; /* White text */
+    text-align: center;
+    padding: 15px;
+    font-size: 1.5em;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 3s ease-in-out infinite alternate;
+}
+
+.announcement-banner p {
+    margin: 0;
+}
+
+.announcement-banner span {
+    color: #4CAF50; /* Palestine-themed green color for emphasis */
+    animation: pulse 1s infinite;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Pulse animation for the emphasized text */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+        header {
+            background-color: #333;
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .logo {
+            margin-bottom: 10px;
+        }
+
+        .logo img {
+            max-height: 80px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 16px 20px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #111;
+        }
+
+        nav ul li.dropdown {
+            position: relative;
+        }
+
+        nav ul li.dropdown > a::after {
+            content: " ▼";
+            font-size: 0.8em;
+        }
+
+        nav ul li .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        nav ul li .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        nav ul li .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        nav ul li.dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .donation-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .donation-section h1 {
+            font-size: 2.5em;
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+
+        .donation-section p {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .donation-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .donation-box {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            flex-basis: 300px;
+            text-align: center;
+        }
+
+        .donation-box h3 {
+            font-size: 1.5em;
+            color: #d32f2f;
+            margin-bottom: 15px;
+        }
+
+        .donation-box p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .donation-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        .donation-button:hover {
+            background-color: #388E3C;
+        }
+
+        /* Infographic Section */
+        .infographic {
+            background-color: #d32f2f;
+            color: #fff;
+            padding: 40px 20px;
+            margin-bottom: 50px;
+        }
+
+        .infographic h2 {
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+
+        .infographic .infographic-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .infographic-item img {
+            max-height: 100px;
+        }
+
+        .infographic-item p {
+            flex-basis: 80%;
+            font-size: 1.2em;
+            text-align: left;
+        }
+
+        /* Impact Section */
+        .impact-section {
+            background-color: #f4f4f4;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .impact-section h2 {
+            font-size: 2em;
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+
+        .impact-section p {
+            font-size: 1.2em;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .impact-section b {
+            color: #4CAF50;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+
+        footer nav {
+            margin-top: 10px;
+        }
+
+        footer nav ul {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        footer nav ul li {
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+
+        footer nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        footer nav ul li a:hover {
+            background-color: #111;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="announcement-banner">
+            <p>JOIN US IN <span>SAVING PALESTINE</span></p>
+        </div>
+
+        <div class="logo">
+            <a href="home.html"><img src="assets/PALESTINE PEACE INITIATIVE LOGO.png" alt="Palestine Peace Initiative Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)">Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="conflict.html">Conflict Page</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="contactus.html">Contact Us</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    </main>
+        <section class="donation-section">
+            <h1>Donate and Support the People of Palestine</h1>
+            <p>Your contribution can make a difference in the lives of Palestinian families. Help us provide humanitarian aid, medical supplies, and educational resources to those affected by the ongoing crisis.</p>
+
+            <div class="donation-options">
+                <div class="donation-box">
+                    <h3>Give $25</h3>
+                    <p>Provide one month's worth of food and essential supplies for a family.</p>
+                    <a href="donate-25.html" class="donation-button">Donate $25</a>
+                </div>
+                <div class="donation-box">
+                    <h3>Give $50</h3>
+                    <p>Supply medical kits for individuals injured in the conflict.</p>
+                    <a href="donate-50.html" class="donation-button">Donate $50</a>
+                </div>
+                <div class="donation-box">
+                    <h3>Give $100</h3>
+                    <p>Support rebuilding efforts for homes destroyed by airstrikes.</p>
+                    <a href="donate-100.html" class="donation-button">Donate $100</a>
+                </div>
+                <div class="donation-box">
+                    <h3>Give $200</h3>
+                    <p>Fund educational programs for children who have lost access to schools.</p>
+                    <a href="donate-200.html" class="donation-button">Donate $200</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Infographic Section -->
+        <section class="infographic">
+            <h2>How Your Donations Are Used</h2>
+            <div class="infographic-item">
+                <img src="assets/Food.png" alt="Food Supplies">
+                <p>40% of donations go towards delivering food and essential supplies to Palestinian families in need.</p>
+            </div>
+            <div class="infographic-item">
+                <img src="assets/Medical.png" alt="Medical Aid">
+                <p>30% of your contributions fund critical medical aid, including emergency treatment and long-term care.</p>
+            </div>
+            <div class="infographic-item">
+                <img src="assets/Education.png" alt="Educational Support">
+                <p>20% supports the education of children who have been affected by the conflict, ensuring access to learning resources.</p>
+            </div>
+            <div class="infographic-item">
+                <img src="assets/Rebuild.png" alt="Rebuilding Efforts">
+                <p>10% goes towards rebuilding homes, schools, and community centers that have been destroyed during the conflict.</p>
+            </div>
+        </section>
+
+        <!-- Impact Section -->
+        <section class="impact-section">
+            <h2>The Impact of Your Contribution</h2>
+            <p>
+                Every dollar you donate directly contributes to <b>changing lives</b>. By supporting the Palestine Peace Initiative, you help provide food to families, medical care to the injured, and education to children. You also aid in rebuilding the infrastructure destroyed by the ongoing conflict.
+            </p>
+            <p>
+                <b>Your generosity</b> allows us to respond swiftly to crises and continue our long-term efforts to support the people of Palestine. Together, we can <b>make a lasting impact</b> in a region where help is desperately needed.
+            </p>
+        </section>
+    </main>
+    
+    <footer>
+        <div style="display: flex; justify-content: space-around; align-items: flex-start; padding: 20px; background-color: #333; color: white;">
+            <!-- Logo Section -->
+            <div class="footer-logo" style="flex-basis: 30%;">
+                <a href="home.html">
+                    <img src="assets/PALESTINE PEACE INITIATIVE LOGO.png" alt="Palestine Peace Initiative Logo" style="max-height: 100px;">
+                </a>
+                <p>&copy; 2024 Palestine Peace Initiative. All Rights Reserved.</p>
+            </div>
+    
+            <!-- Quick Links Section -->
+            <div class="footer-links" style="flex-basis: 30%;">
+                <h4>Quick Links</h4>
+                <nav>
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li><a href="home.html" style="color: white; text-decoration: none;">Home</a></li>
+                        <li><a href="aboutus.html" style="color: white; text-decoration: none;">About Us</a></li>
+                      
+                        <li><a href="contactus.html" style="color: white; text-decoration: none;">Contact Us</a></li>
+                        <li><a href="donate.html" style="color: white; text-decoration: none;">Donate</a></li>
+                       
+                    </ul>
+                </nav>
+            </div>
+    
+            <!-- Map Section -->
+            <div class="footer-map" style="flex-basis: 30%;">
+                <h4>Our Location</h4>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.271271821685!2d-122.08575048469088!3d37.42206597982588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb5e2b2497a91%3A0x2d93e831fbfa9fbb!2sGoogleplex!5e0!3m2!1sen!2sus!4v1633311742969!5m2!1sen!2sus"
+                    width="100%" height="150" style="border: 0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    
+        <div style="text-align: center; background-color: #222; padding: 10px; color: white;">
+            <p>Follow us on social media:</p>
+            <a href="https://facebook.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Facebook</a> |
+            <a href="https://twitter.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Twitter</a> |
+            <a href="https://instagram.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Instagram</a>
+        </div>
+    </footer>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Palestine Peace Initiative</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .announcement-banner {
+    background-color: #d32f2f; /* Palestine-themed red background */
+    color: #fff; /* White text */
+    text-align: center;
+    padding: 15px;
+    font-size: 1.5em;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 3s ease-in-out infinite alternate;
+}
+
+.announcement-banner p {
+    margin: 0;
+}
+
+.announcement-banner span {
+    color: #4CAF50; /* Palestine-themed green color for emphasis */
+    animation: pulse 1s infinite;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Pulse animation for the emphasized text */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+        header {
+            background-color: #333;
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .logo {
+            margin-bottom: 10px;
+        }
+
+        .logo img {
+            max-height: 80px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 16px 20px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #111;
+        }
+
+        nav ul li.dropdown {
+            position: relative;
+        }
+
+        nav ul li.dropdown > a::after {
+            content: " ▼";
+            font-size: 0.8em;
+        }
+
+        nav ul li .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        nav ul li .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        nav ul li .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        nav ul li.dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .contact-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .contact-info, .contact-form {
+            flex-basis: 48%;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info h2, .contact-form h2 {
+            color: #d32f2f;
+            font-size: 2em;
+        }
+
+        .contact-info p {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .contact-info a {
+            color: #d32f2f;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-form form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-form input, .contact-form textarea {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .contact-form button {
+            background-color: #d32f2f;
+            color: white;
+            padding: 15px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .contact-form button:hover {
+            background-color: #c1272d;
+        }
+
+        .map-container {
+            margin-top: 40px;
+            width: 100%;
+            height: 400px;
+            background-color: #ddd;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+
+        footer nav {
+            margin-top: 10px;
+        }
+
+        footer nav ul {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        footer nav ul li {
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+
+        footer nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        footer nav ul li a:hover {
+            background-color: #111;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="announcement-banner">
+            <p>JOIN US IN <span>SAVING PALESTINE</span></p>
+        </div>
+
+        <div class="logo">
+            <a href="home.html"><img src="assets/PALESTINE PEACE INITIATIVE LOGO.png" alt="Palestine Peace Initiative Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)">Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="conflict.html">Conflict Page</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="contactus.html">Contact Us</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="contact-container">
+            <!-- Contact Information Section -->
+            <div class="contact-info">
+                <h2>Get in Touch</h2>
+                <p>We’d love to hear from you! Whether you have a question about our work, need assistance, or want to get involved, please feel free to reach out to us.</p>
+                
+                <p><strong>Email:</strong> <a href="mailto:info@palestinepeaceinitiative.org">info@palestinepeaceinitiative.org</a></p>
+                <p><strong>Phone:</strong> <a href="tel:+1234567890">+1 (234) 567-890</a></p>
+                <p><strong>Address:</strong><br>
+                123 Palestine Peace Initiative HQ,<br>
+                Durban,<br>
+                Kwa Zulu - Natal, South Africa.</p>
+        
+                <h3>Follow Us on Social Media</h3>
+                <p><a href="https://facebook.com/palestinepeaceinitiative">Facebook</a> | <a href="https://twitter.com/palestinepeaceinitiative">Twitter</a> | <a href="https://instagram.com/palestinepeaceinitiative">Instagram</a></p>
+            </div>
+        
+            <!-- Contact Form Section -->
+            <div class="contact-form">
+                <h2>Send Us a Message</h2>
+                <form id="contactForm" onsubmit="return validateForm()">
+                    <input type="text" name="name" id="name" placeholder="Your Name" onclick="clearField('name')" required>
+                    <input type="email" name="email" id="email" placeholder="Your Email" onclick="clearField('email')" required>
+                    <input type="text" name="subject" id="subject" placeholder="Subject" onclick="clearField('subject')" required>
+                    <textarea name="message" id="message" rows="6" placeholder="Your Message" onclick="clearField('message')" required></textarea>
+                    
+                    <!-- Additional Personal Info Fields -->
+                    <input type="text" name="phone" id="phone" placeholder="Your Phone Number" onclick="clearField('phone')" required>
+                    <select name="enquiryType" id="enquiryType" required>
+                        <option value="">Select Enquiry Type</option>
+                        <option value="General Question">General Question</option>
+                        <option value="Donation">Donation</option>
+                        <option value="Volunteer">Volunteer</option>
+                        <option value="Other">Other</option>
+                    </select>
+        
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+        
+        <script>
+            // Clear field function
+            function clearField(id) {
+                const field = document.getElementById(id);
+                if (field.value === field.placeholder) {
+                    field.value = '';
+                }
+            }
+        
+            // Validate form
+            function validateForm() {
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+                const phone = document.getElementById('phone').value;
+                const enquiryType = document.getElementById('enquiryType').value;
+        
+                if (name === '' || email === '' || subject === '' || message === '' || phone === '' || enquiryType === '') {
+                    alert('Please fill in all required fields.');
+                    return false;
+                }
+        
+                // Send form via mailto
+                const mailtoLink = `mailto:info@palestinepeaceinitiative.org?subject=${encodeURIComponent(subject)}&body=Name: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0APhone: ${encodeURIComponent(phone)}%0AEnquiry Type: ${encodeURIComponent(enquiryType)}%0A%0AMessage: ${encodeURIComponent(message)}`;
+                window.location.href = mailtoLink;
+                return false;
+            }
+        </script>
+        
+    
+        <div style="text-align: center; background-color: #222; padding: 10px; color: white;">
+            <p>Follow us on social media:</p>
+            <a href="https://facebook.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Facebook</a> |
+            <a href="https://twitter.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Twitter</a> |
+            <a href="https://instagram.com/palestinepeaceinitiative" style="color: white; text-decoration: none;">Instagram</a>
+        </div>
+    </footer>
